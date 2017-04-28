@@ -1,6 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
+import csv
 
+# Mother of spiders sent her kids to gather info and save it in a file
+def spiders_mum(url,how_many,file_name):
+    id_list = id_spider(url,how_many)
+    movies_dict = details_spider(id_list)
+    saving_spider(file_name,movies_dict)
 
 # Spider will get a list of how many first movies from IMDb you want
 
@@ -15,7 +21,7 @@ def id_spider(url,how_many):
         links = movie.findAll('a')
         for a in links:
             href = a.get('href')
-            movie_id = parse_movie_id(href)
+            movie_id = parseing_spider(href)
         if int(number) <= how_many:
             result.append(movie_id)
 
@@ -23,19 +29,27 @@ def id_spider(url,how_many):
 
 # This little parser will get a movie id from a href
 
-def parse_movie_id(href):
+def parseing_spider(href):
     movie_id = href.split('/')[2]
     return(movie_id)
 
-# This spider will get a movie details by id from omdbapi
+# This spider will get a movies details by id from omdbapi and put them into dictionary {Title : Year}
 
-def details_spider(url,id_list):
+def details_spider(id_list):
+    result = {}
+    for id in id_list:
+        response = requests.get('http://www.omdbapi.com/?i='+id)
+        result[response.json()['Title']] = response.json()['Year']
+    return result
 
+# This function will sort results and save to csv file
 
+def saving_spider(file_name,movies_dict):
+    with open(file_name, 'w') as f:
+        w = csv.writer(f)
+        w.writerows(sorted(movies_dict.items(), key=lambda x: x[1]))
 
+spiders_mum('http://www.imdb.com/chart/top?ref=ft_250',100,'movies.csv')
 
-
-list_of_id = id_spider('http://www.imdb.com/chart/top?ref=ft_250',100)
-details_spider('http://www.omdbapi.com/?i',list_of_id)
 
 # I dont know if it was a part of the test but I have noticed that We could get title and year directly from td
