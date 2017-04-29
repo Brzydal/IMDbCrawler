@@ -8,12 +8,11 @@ def spiders_mum(url,how_many,file_name):
     movies_dict = details_spider(id_list)
     saving_spider(file_name,movies_dict)
 
-# Spider will get a list of how many first movies from IMDb you want
-
+# Spider will get a list of movies from IMDb (how many first movies you want)
 def id_spider(url,how_many):
     result = []
     page_text = requests.get(url).text
-    soup = BeautifulSoup(page_text,"lxml")
+    soup = BeautifulSoup(page_text)
     movies = soup.findAll('td',{'class':'titleColumn'})
 
     for movie in movies:
@@ -49,7 +48,6 @@ def saving_spider(file_name,movies_dict):
         w = csv.writer(f)
         w.writerows(sorted(movies_dict.items(), key=lambda x: x[1]))
 
-spiders_mum('http://www.imdb.com/chart/top?ref=ft_250',100,'movies.csv')
-
-
 # I dont know if it was a part of the test but I have noticed that We could get title and year directly from td
+
+# Black_Widow = spiders_mum('http://www.imdb.com/chart/top?ref=ft_250', 100, 'movies.csv')
