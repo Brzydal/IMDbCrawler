@@ -1,7 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
 import csv
-
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class Spider():
 
@@ -24,7 +26,6 @@ class Spider():
         page_text = requests.get(self.url).text
         soup = BeautifulSoup(page_text)
         movies = soup.findAll('td',{'class':'titleColumn'})
-
         for movie in movies:
             number = movie.text.split('.')[0]
             links = movie.findAll('a')
@@ -43,7 +44,7 @@ class Spider():
 
     def saving_spider(self):
         # This function will sort results and save to csv file
-        with open(self.output_file_name, 'w') as f:
+        with open(self.output_file_name, 'wb') as f:
             w = csv.writer(f)
             w.writerows(sorted(self.movies_details.items(), key=lambda x: x[1]))
 
@@ -56,3 +57,9 @@ class Spider():
 
 # I dont know if it was a part of the test but I have noticed that We could get title and year directly from td
 
+# BlackWidow = Spider('http://www.imdb.com/chart/top?ref=ft_250',100,'movies.csv')
+# BlackWidow.id_spider()
+# print(len(BlackWidow.list_of_id))
+# BlackWidow.details_spider()
+# print(BlackWidow.movies_details)
+# BlackWidow.saving_spider()
