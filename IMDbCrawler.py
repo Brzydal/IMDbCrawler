@@ -10,7 +10,7 @@ class Spider:
     """
 
     url = 'http://www.imdb.com/chart/top?ref=ft_250'
-    how_many_movies_ = 100
+    how_many_movies_ = 100  # In our case min 0 max 250 otherwise we have to change url
     output_file_name = 'movies.csv'
     list_of_id = []
     movies_details = {}
