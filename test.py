@@ -70,6 +70,7 @@ class TestSpider:
         """
         Then lets test if saving spider created a file
         """
+        self.BlackWidow.saving_spider()
         assert os.path.exists('movies.csv')
 
     def test_saving_spider2(self):
