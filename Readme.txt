@@ -3,3 +3,4 @@ To start IMDb Crawler You will need:
 - BeautifulSoup 4
 - lxml module
 - requests module
+- csv module
