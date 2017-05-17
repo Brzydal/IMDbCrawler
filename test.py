@@ -1,4 +1,4 @@
-from IMDbCrawler import *
+from IMDbCrawler import Spider
 import os.path
 
 
@@ -7,7 +7,7 @@ class TestSpider:
 
     def test_set_up(self):
         """
-        Lets create our spider
+        Let's create our spider
         """
 
         self.BlackWidow = Spider('http://www.imdb.com/chart/top?ref=ft_250', 100, 'movies.csv')
@@ -15,7 +15,7 @@ class TestSpider:
 
     def test_parsing_spider(self):
         """
-        First lets test if parser is working fine
+        First let's test if parser is working fine
         """
 
         movie_id = self.BlackWidow.parsing_spider(
@@ -25,7 +25,7 @@ class TestSpider:
 
     def test_id_spider1(self):
         """
-        Lets test if we will get 100 movies
+        Let's test if we will get 100 movies
         """
 
         assert len(self.BlackWidow.list_of_id) == 100
@@ -68,14 +68,14 @@ class TestSpider:
 
     def test_saving_spider1(self):
         """
-        Then lets test if saving spider created a file
+        Then let's test if saving spider created a file
         """
         self.BlackWidow.saving_spider()
         assert os.path.exists('movies.csv')
 
     def test_saving_spider2(self):
         """
-        Then lets test if for specific movie details saving spider will create file with three rows
+        Then let's test if for specific movie details saving spider will create file with three rows
         """
 
         self.BlackWidow.movies_details = {'Three': 3, 'One': 1, 'Two': 2}
@@ -97,4 +97,4 @@ class TestSpider:
         with open(self.BlackWidow.output_file_name, 'r') as f:
             row_count = sum(1 for row in f)
         assert row_count == 100
->>>>>>> spider
+
