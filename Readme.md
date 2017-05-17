@@ -30,7 +30,7 @@ user can get details of ths movies and save it in a csv file. For more details p
 
 3. BlackWidow - when script will be started the following script should be activated:
 
-    ```
+    ```python
     if __name__ == "__main__" I
         print("### Starting Spider! ###")
         BlackWidow = Spider('http://www.imdb.com/chart/top?ref=ft_250', 100, 'movies.csv')
@@ -44,5 +44,47 @@ user can get details of ths movies and save it in a csv file. For more details p
 
     The idea is to fulfill all of the Task points.
 
+## Tests
+Pytest was used to test the code. Class Test_Spider was created with test_set_up method where we create our Spider and the following test methods:
 
-author @ brzydal
+
+
+- test_parsing_spider - simply tests if parser is working fine, an href on input and expected id on output
+
+        assert movie_id == 'tt0068646'
+- test_id_spider1 - tests if we will get 100 movies
+
+        assert len(self.BlackWidow.list_of_id) == 100
+
+- test_id_spider2 - tests if id of first movie is ok (the test will fail if ranking in IMDb will change)
+
+        assert self.BlackWidow.list_of_id[0] == 'tt0111161'
+
+- test_id_spider3 - tests if id of last movie is ok (the test will fail if ranking in IMDb will change)
+
+        assert self.BlackWidow.list_of_id[99] == 'tt0071853'
+
+- test_details_spider1 - tests if for id tt0068646 we will get Godfather with Year of 1972
+
+        assert list(self.BlackWidow.movies_details.keys())[0] == 'The Godfather'
+        assert list(self.BlackWidow.movies_details.values())[0] == '1972'
+
+- test_details_spider2 - tests if for id tt0208092 we will get Snatch with Year of 2000
+
+        assert list(self.BlackWidow.movies_details.keys())[0] == 'Snatch'
+        assert list(self.BlackWidow.movies_details.values())[0] == '2000'
+
+- test_saving_spider1 - tests if saving spider created a file
+
+        assert os.path.exists('movies.csv')
+
+- test_saving_spider2 - tests if for specific movie details saving spider will create file with three rows
+
+        assert row_count == 3
+
+- test_saving_spider3 - tests if saving spider will create file with 100 rows
+
+        assert row_count == 100
+
+
+author @brzydal
